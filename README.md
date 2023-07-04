@@ -12,6 +12,7 @@ BeamNG.Drive style vehicle damage visualizer for FiveM
 - Looks exactly like BeamNG.Drive's simple damage visualizer
 - Aligns to the right of the minimap, respecting user's safezone and aspect ratios
 - Almost all parts of the vehicle can be shown as damaged
+- Uses 0.00msec in resmon
 
 ### 3 Stage Severity
 - Fuel tank
