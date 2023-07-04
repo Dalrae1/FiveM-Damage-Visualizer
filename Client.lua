@@ -1,5 +1,4 @@
 local vehicleDamages = {}
-
 local emptyVehicleDamages = {
     {
         ["Type"] = "wheels",
@@ -61,12 +60,30 @@ local emptyVehicleDamages = {
         ["Component"] = "MR",
         ["Severity"] = 0
     },
+    {
+        ["Type"] = "engine",
+        ["Component"] = "radiatorLeak",
+        ["Severity"] = 0
+    }
 }
 local currentVehicleDamages = emptyVehicleDamages
 
+function GetRadiatorDamage(vehicle)
+    local damage = math.ceil(GetVehicleEngineHealth(vehicle))
+    if damage < 200 then
+        return 3
+    elseif damage < 300 then
+        return 2
+    elseif damage < 400 then -- Technically doesn't start smoking till 300 but eh
+        return 1
+    else
+        return 0
+    end
+end
+
 function GetEngineDamage(vehicle)
     local damage = math.ceil(GetVehicleEngineHealth(vehicle))
-    if damage < 300 then
+    if damage < 200 then
         return 3
     elseif damage < 600 then
         return 2
@@ -76,7 +93,6 @@ function GetEngineDamage(vehicle)
         return 0
     end
 end
-
 function GetTireDamage(vehicle, tireIndex)
     --local damage = math.ceil(GetTyreHealth(vehicle, tireIndex))
     local damage = math.ceil(GetVehicleWheelHealth(vehicle, tireIndex))
@@ -90,7 +106,6 @@ function GetTireDamage(vehicle, tireIndex)
         return 0
     end
 end
-
 function GetFuelTankDamage(vehicle)
     local damage = math.ceil(GetVehiclePetrolTankHealth(vehicle))
     if damage < 300 or GetVehicleFuelLevel(vehicle) == 0.0 then
@@ -103,7 +118,6 @@ function GetFuelTankDamage(vehicle)
         return 0
     end
 end
-
 function GetDoorHealth(vehicle, doorIndex)
     local windowIndex = doorIndex == 0 and 0 or doorIndex == 1 and 1
     local windowBroken = not IsVehicleWindowIntact(vehicle, windowIndex)
@@ -116,7 +130,6 @@ function GetDoorHealth(vehicle, doorIndex)
         return 0
     end
 end
-
 local headlightFunctions = {
     [true]=GetIsLeftVehicleHeadlightDamaged,
     [false]=GetIsRightVehicleHeadlightDamaged
@@ -151,7 +164,6 @@ function GetBodyState(vehicle,front,leftSide)
         return 0
     end
 end
-
 function CheckVehicleDamage(vehicle)
     local newVehicleDamages = {
         {
@@ -214,6 +226,11 @@ function CheckVehicleDamage(vehicle)
             ["Component"] = "MR",
             ["Severity"] = GetDoorHealth(vehicle, 1)
         },
+        {
+            ["Type"] = "engine",
+            ["Component"] = "radiatorLeak",
+            ["Severity"] = GetRadiatorDamage(vehicle)
+        }
     }
     for i, data in pairs(newVehicleDamages) do
         if data.Severity ~= currentVehicleDamages[i].Severity then
@@ -222,7 +239,6 @@ function CheckVehicleDamage(vehicle)
     end
     currentVehicleDamages = newVehicleDamages
 end
-
 function GetMinimapAnchor()
     local safezone = GetSafeZoneSize()
     local safezone_x = 1.0 / 20.0
@@ -244,7 +260,6 @@ function GetMinimapAnchor()
     Minimap.yunit = yscale
     return Minimap
 end
-
 function DamageVehicle(vehicle, componentType, component, damageSeverity)
     local anchor = GetMinimapAnchor()
     SendNUIMessage(
@@ -258,7 +273,6 @@ function DamageVehicle(vehicle, componentType, component, damageSeverity)
         }
     )
 end
-
 function ResetDamage()
     currentVehicleDamages = emptyVehicleDamages
     SendNUIMessage(
@@ -267,7 +281,6 @@ function ResetDamage()
         }
     )
 end
-
 function HideDamage()
     ResetDamage()
     SendNUIMessage(
@@ -276,7 +289,6 @@ function HideDamage()
         }
     )
 end
-
 local invalidClasses = {
     [8] = true, -- Motorcycles
     [13] = true, -- Cycles
@@ -292,7 +304,6 @@ function isVehicleInvalid(vehicle)
     local class = GetVehicleClass(vehicle)
     return invalidClasses[class] or false
 end
-
 local lastVehicle = nil
 CreateThread(function()
     while true do
