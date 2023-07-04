@@ -18,12 +18,14 @@ BeamNG.Drive style vehicle damage visualizer for FiveM
 - Fuel tank
 - Engine
 - Tires
+- Front left body
+- Front right body
 ### 2 Stage Severity
 - Left door/window
 - Right door/window
-### 1 Stage Severity
-- Front left body
-- Front right body
+- Rear left body
+- Rear left body
+
 
 
 
@@ -32,4 +34,3 @@ Currently it cannot detect:
 - Brakes
 - Driveshaft
 - Axles
-- Rear body
