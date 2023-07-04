@@ -151,7 +151,7 @@ function GetBodyState(vehicle,front,leftSide)
         end
     elseif not front then 
         local tailLight = GetEntityBoneIndexByName(vehicle,taillightBoneNames[leftSide])
-        if GetEntityBoneRotation(vehicle,tailLight) == vector3(0,0,0) then 
+        if GetEntityBoneRotation(vehicle,tailLight) == vector3(0,0,0) and not isBroken and not isBouncing then 
             return 1 
         end
     end 
