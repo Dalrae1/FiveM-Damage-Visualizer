@@ -20,6 +20,7 @@ BeamNG.Drive style vehicle damage visualizer for FiveM
 - Tires
 - Front left body
 - Front right body
+- Radiator
 ### 2 Stage Severity
 - Left door/window
 - Right door/window
@@ -30,7 +31,6 @@ BeamNG.Drive style vehicle damage visualizer for FiveM
 
 
 Currently it cannot detect:
-- Radiator
 - Brakes
 - Driveshaft
 - Axles
