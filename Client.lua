@@ -121,6 +121,12 @@ local headlightFunctions = {
     [true]=GetIsLeftVehicleHeadlightDamaged,
     [false]=GetIsRightVehicleHeadlightDamaged
 }
+
+local taillightBoneNames = {
+    [true]="taillight_l",
+    [false]="taillight_r"
+}
+
 function GetBodyState(vehicle,front,leftSide)
     local isBouncing = IsVehicleBumperBouncing(vehicle,front)
     local isBroken = IsVehicleBumperBrokenOff(vehicle,front) and isBouncing
@@ -129,6 +135,11 @@ function GetBodyState(vehicle,front,leftSide)
         local headlightBroken = headlightFunctions[leftSide](vehicle)
         if headlightBroken and not isBroken and not isBouncing then 
             return 1
+        end
+    elseif not front then 
+        local tailLight = GetEntityBoneIndexByName(vehicle,taillightBoneNames[leftSide])
+        if GetEntityBoneRotation(vehicle,tailLight) == vector3(0,0,0) then 
+            return 1 
         end
     end 
 
