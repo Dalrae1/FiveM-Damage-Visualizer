@@ -43,6 +43,16 @@ local emptyVehicleDamages = {
     },
     {
         ["Type"] = "body",
+        ["Component"] = "RL",
+        ["Severity"] = 0,
+    },
+    {
+        ["Type"] = "body",
+        ["Component"] = "RR",
+        ["Severity"] = 0,
+    },
+    {
+        ["Type"] = "body",
         ["Component"] = "ML",
         ["Severity"] = 0
     },
@@ -107,6 +117,30 @@ function GetDoorHealth(vehicle, doorIndex)
     end
 end
 
+local headlightFunctions = {
+    [true]=GetIsLeftVehicleHeadlightDamaged,
+    [false]=GetIsRightVehicleHeadlightDamaged
+}
+function GetBodyState(vehicle,front,leftSide)
+    local isBouncing = IsVehicleBumperBouncing(vehicle,front)
+    local isBroken = IsVehicleBumperBrokenOff(vehicle,front) and isBouncing
+
+    if front then 
+        local headlightBroken = headlightFunctions[leftSide](vehicle)
+        if headlightBroken and not isBroken and not isBouncing then 
+            return 1
+        end
+    end 
+
+    if isBroken then
+        return 3
+    elseif isBouncing then
+        return 2
+    else 
+        return 0
+    end
+end
+
 function CheckVehicleDamage(vehicle)
     local newVehicleDamages = {
         {
@@ -142,12 +176,22 @@ function CheckVehicleDamage(vehicle)
         {
             ["Type"] = "body",
             ["Component"] = "FL",
-            ["Severity"] = GetIsLeftVehicleHeadlightDamaged(vehicle) and 3 or 0,
+            ["Severity"] = GetBodyState(vehicle,true,true),
         },
         {
             ["Type"] = "body",
             ["Component"] = "FR",
-            ["Severity"] = GetIsRightVehicleHeadlightDamaged(vehicle) and 3 or 0,
+            ["Severity"] = GetBodyState(vehicle,true,false),
+        },
+        {
+            ["Type"] = "body",
+            ["Component"] = "RL",
+            ["Severity"] = GetBodyState(vehicle,false,true),
+        },
+        {
+            ["Type"] = "body",
+            ["Component"] = "RR",
+            ["Severity"] = GetBodyState(vehicle,false,false),
         },
         {
             ["Type"] = "body",
@@ -166,7 +210,6 @@ function CheckVehicleDamage(vehicle)
         end
     end
     currentVehicleDamages = newVehicleDamages
-
 end
 
 function GetMinimapAnchor()
