@@ -111,7 +111,7 @@ function GetDoorHealth(vehicle, doorIndex)
     if doorBroken then
         return 3
     elseif windowBroken then
-        return 1
+        return 2
     else
         return 0
     end
@@ -297,9 +297,4 @@ CreateThread(function()
         ::continue::
         lastVehicle = vehicle
     end
-end)
-
-
-AddEventHandler("CEventVehicleCollision", function(p1,p2,p3)
-    print("fired")
 end)
