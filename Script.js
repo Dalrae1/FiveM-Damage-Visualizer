@@ -29,7 +29,7 @@ function waitForElm(selector) {
         orangeColor = `rgba(255, 132, 0, 0.6)`,
         redColor = `rgba(255, 0,   0, 0.6)`,
         noDataColor = 'rgba(0,   0,   0, 0  )',
-        textDisplayTime = 10000 // Amount of time damage text is shon in milliseconds
+        textDisplayTime = 2000 // Amount of time damage text is shon in milliseconds
     
     var componentDamageMap =  {
         body : {
