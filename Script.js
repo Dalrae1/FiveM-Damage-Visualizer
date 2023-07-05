@@ -120,7 +120,7 @@ function waitForElm(selector) {
         hu(component.svgId, svg).css({
             fill: color
         }).attr({
-            class: anim
+            class: "component "+anim
         }).on('webkitAnimationEnd', function (){
             hu(component.svgId, svg).n.classList.remove("flashAnim")
         })
