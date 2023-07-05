@@ -20,13 +20,12 @@ BeamNG.Drive style vehicle damage visualizer for FiveM
 - Tires
 - Front left body
 - Front right body
+- Rear left body
+- Rear left body
 - Radiator
 ### 2 Stage Severity
 - Left door/window
 - Right door/window
-- Rear left body
-- Rear left body
-
 
 
 
