@@ -1,3 +1,7 @@
+body {
+	overflow: hidden;
+}
+
 @keyframes flash {
     0% {
         fill-opacity: 1;
