@@ -51,6 +51,10 @@
     }
 }
 
+body {
+    overflow: hidden;
+}
+
 .fadeInAnim {
     animation: fadeIn 1s
 }
